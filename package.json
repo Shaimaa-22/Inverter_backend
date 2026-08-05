@@ -1,0 +1,35 @@
+{
+  "name": "inverter-control-backend",
+  "version": "1.0.0",
+  "description": "Secure Node.js/Express backend for controlling one inverter through ESP32 and MQTT.",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "db:init": "node scripts/init-db.js",
+    "admin:create": "node scripts/create-admin.js",
+    "db:migrate": "node scripts/migrate.js",
+    "test": "node --test",
+    "admin:reset": "node scripts/reset-admin.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mqtt": "^5.14.1",
+    "pg": "^8.16.3",
+    "zod": "^4.0.14"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

@@ -1,0 +1,10 @@
+const express = require('express');
+const asyncHandler = require('../utils/asyncHandler');
+const controller = require('../controllers/deviceController');
+const { authenticate, authorize } = require('../middleware/auth');
+const router = express.Router();
+router.use(authenticate);
+router.get('/status', asyncHandler(controller.status));
+router.post('/command', authorize('admin', 'operator'), asyncHandler(controller.command));
+router.get('/command/:requestId', asyncHandler(controller.commandStatus));
+module.exports = router;

@@ -1,0 +1,10 @@
+const express = require('express');
+const asyncHandler = require('../utils/asyncHandler');
+const controller = require('../controllers/userController');
+const { authenticate, authorize } = require('../middleware/auth');
+const router = express.Router();
+router.use(authenticate, authorize('admin'));
+router.get('/', asyncHandler(controller.list));
+router.post('/', asyncHandler(controller.create));
+router.patch('/:id', asyncHandler(controller.update));
+module.exports = router;

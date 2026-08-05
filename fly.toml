@@ -1,0 +1,53 @@
+# Fly.io application configuration.
+# The Fly dashboard/CLI may replace the app name with a globally unique name.
+app = "inverter-control-backend-shaimaa"
+primary_region = "fra"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "3000"
+  TRUST_PROXY = "1"
+  DATABASE_SSL = "true"
+  DATABASE_SSL_REJECT_UNAUTHORIZED = "true"
+  DATABASE_POOL_MAX = "5"
+  COOKIE_SECURE = "true"
+  COOKIE_SAME_SITE = "none"
+  MQTT_REJECT_UNAUTHORIZED = "true"
+  MQTT_KEEPALIVE_SECONDS = "30"
+  MQTT_RECONNECT_PERIOD_MS = "3000"
+  MQTT_CONNECT_TIMEOUT_MS = "15000"
+  COMMAND_TIMEOUT_MS = "10000"
+  HEARTBEAT_OFFLINE_MS = "30000"
+  STATUS_POLL_INTERVAL_MS = "5000"
+  BCRYPT_ROUNDS = "12"
+
+[deploy]
+  release_command = "npm run db:migrate"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = false
+  min_machines_running = 1
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 50
+    hard_limit = 100
+
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "5s"
+    grace_period = "30s"
+    method = "GET"
+    path = "/api/health/live"
+    protocol = "http"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
